@@ -3,6 +3,7 @@ name: "Deploy on Comment"
 on:
   issue_comment:
     types: [created] # Triggers only when a new comment is created
+  workflow_dispatch:
 
 jobs:
   deploy:
