@@ -1,0 +1,43 @@
+# example of a test workflow file, which can be triggered manually or on issue comments
+# and then it should checkout the correct PR commit SHA to run tests against that code
+# and make such that the PR status is set correctly after the tests are done
+# and it should be in waiting state if triggered manually until a PR comment is made
+name: "Deploy on Comment"
+on:
+  issue_comment:
+    types: [created] # Triggers only when a new comment is created
+  workflow_dispatch:
+    inputs:
+      pr_sha:
+        description: 'The SHA of the PR to test'
+        required: false
+jobs:
+  new_deploy:
+    runs-on: ubuntu-latest
+    # This 'if' condition checks if the comment was made on a Pull Request (PR)
+    # AND if the comment body contains the '/deploy' command
+    if: |
+      (github.event_name != 'pull_request') ||
+      contains(github.event.comment.body, '/deploy')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || inputs.pr_sha || github.sha }}
+      - name: Run deployment script
+        run: echo "Deployment triggered by comment!"
+      - name: Set PR status to success
+        if: github.event_name == 'issue_comment' && github.event.issue.pull_request
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prUrl = github.event.issue.pull_request.url;
+            const { data: pr } = await github.request(prUrl);
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: pr.head.sha,
+              state: 'success',
+              context: 'deploy-on-comment',
+              description: 'Deployment finished successfully'
+            });
