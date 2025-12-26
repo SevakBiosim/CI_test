@@ -1,0 +1,21 @@
+name: "Deploy on Comment"
+
+on:
+  issue_comment:
+    types: [created] # Triggers only when a new comment is created
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # This 'if' condition checks if the comment was made on a Pull Request (PR)
+    # AND if the comment body contains the '/deploy' command
+    if: |
+      github.event.issue.pull_request 
+      && contains(github.event.comment.body, '/ci-1')
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Run deployment script
+        run: echo "Deployment triggered by comment!"
