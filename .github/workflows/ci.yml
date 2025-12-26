@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-		    with:
+        with:
           ref: ${{ inputs.pr_sha }}
         
       - name: Run deployment script
