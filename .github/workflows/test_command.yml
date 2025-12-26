@@ -88,6 +88,7 @@ jobs:
       - name: Run tests
         run: |
           echo "Running tests for PR #${{ steps.pr.outputs.pr_number }} @ ${{ steps.pr.outputs.head_sha }}"
+          sleep 10
 
       - name: Set status to success/failure on the PR head SHA
         if: always()
