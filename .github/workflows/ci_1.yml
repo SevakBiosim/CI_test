@@ -5,7 +5,7 @@ on:
     types: [created] # Triggers only when a new comment is created
 
 jobs:
-  deploy:
+  deploy_1:
     runs-on: ubuntu-latest
     # This 'if' condition checks if the comment was made on a Pull Request (PR)
     # AND if the comment body contains the '/deploy' command
