@@ -11,8 +11,8 @@ jobs:
     # This 'if' condition checks if the comment was made on a Pull Request (PR)
     # AND if the comment body contains the '/deploy' command
     if: |
-      github.event.issue.pull_request 
-      && contains(github.event.comment.body, '/deploy')
+      (github.event_name != 'pull_request') ||
+      contains(github.event.comment.body, '/deploy')
     
     steps:
       - name: Checkout code
