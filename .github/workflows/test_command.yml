@@ -21,9 +21,6 @@ concurrency:
 
 jobs:
   test:
-    # Run if:
-    # - manually dispatched OR
-    # - comment is on a PR and contains /test
     if: >
       github.event_name == 'workflow_dispatch' ||
       (github.event.issue.pull_request && contains(github.event.comment.body, '/test'))
@@ -40,8 +37,13 @@ jobs:
 
             const prNumber =
               context.eventName === "workflow_dispatch"
-                ? Number(core.getInput("pr_number", { required: true }))
+                ? Number(context.payload.inputs.pr_number)
                 : context.payload.issue.number;
+
+            if (!prNumber) {
+              core.setFailed("No pr_number provided for workflow_dispatch.");
+              return;
+            }
 
             const { data: pr } = await github.rest.pulls.get({
               owner,
@@ -53,8 +55,6 @@ jobs:
             core.setOutput("head_sha", pr.head.sha);
             core.setOutput("head_ref", pr.head.ref);
             core.setOutput("head_repo_full_name", pr.head.repo.full_name);
-            core.setOutput("head_repo_owner", pr.head.repo.owner.login);
-            core.setOutput("head_repo_name", pr.head.repo.name);
 
       - name: Set required status to pending (shows as running/waiting)
         uses: actions/github-script@v7
@@ -74,7 +74,6 @@ jobs:
               target_url: `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
             });
 
-      # Checkout PR HEAD commit (works for PRs from same repo and most fork PRs for public repos)
       - name: Checkout PR head
         uses: actions/checkout@v4
         with:
@@ -82,13 +81,10 @@ jobs:
           ref: ${{ steps.pr.outputs.head_sha }}
           fetch-depth: 0
 
-      # ---------------------------
-      # Put your real test steps here
-      # ---------------------------
       - name: Run tests
         run: |
           echo "Running tests for PR #${{ steps.pr.outputs.pr_number }} @ ${{ steps.pr.outputs.head_sha }}"
-          sleep 10
+          sleep 15
 
       - name: Set status to success/failure on the PR head SHA
         if: always()
