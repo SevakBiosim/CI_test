@@ -43,8 +43,9 @@ body:
       label: Success criteria
       description: >
         Decided *before running*: what result would make us adopt or reject
-        this. Give a number where you can. With no baseline, say instead what
-        would count as having characterised the thing well enough to decide.
+        this. Give a number where you can. Exploratory experiments may use
+        decision criteria rather than pass/fail thresholds, but those criteria
+        must still be written before examining the result.
       placeholder: |
         e.g. Adopt if RMSE vs. experiment improves by >= 0.3 kcal/mol across the
         target set with no regression > 0.5 kcal/mol on any single ligand.

@@ -29,13 +29,14 @@ per comparable unit — a single Current status cannot summarise six verdicts.
 | `method:*` | `abfe`, `rbfe`, `fep`, `rest2`, `md`, `analysis` |
 | `status:*` | `active`, `blocked`, `paused` |
 | `type:*` | `experiment`, `finding` |
-| `outcome:*` | `adopted`, `rejected` — set once, at close |
+| `outcome:*` | `adopted`, `rejected`, `inconclusive` — set once, at close |
 
 Lowercase and hyphenated, always. `type:finding` is a standalone bug or
 observation rather than a running experiment; only experiments have a template.
 There is no `status:done` — a closed issue is done.
 
-Assign an owner. The assignee provides the weekly update.
+Assign one directly responsible owner. Other contributors may also be assigned,
+but the primary owner is responsible for the weekly update.
 
 ## Top post
 
@@ -44,7 +45,9 @@ data location. **If the plan pivots, edit the top post** rather than letting it
 go stale.
 
 - **Success criteria** are decided *before* running, as a number where possible,
-  so the conclusion cannot be reverse-engineered from the data.
+  so the conclusion cannot be reverse-engineered from the data. Exploratory
+  experiments may use decision criteria rather than pass/fail thresholds, but
+  those criteria must still be written before examining the result.
 - **Baseline** may be `None` — a first measurement with nothing to compare
   against. Say so explicitly; then the success criteria state what would count
   as having characterised the thing well enough to decide.
@@ -66,22 +69,32 @@ not belong in one mean.
 ## Updates
 
 One comment per update: what was tested, delta vs. baseline, conclusion. A few
-sentences, not a report. At most ~2 plots or tables — a Claude Artifact link is
-fine for the deep dive, but the comment must stand on its own.
+sentences, not a report. At most ~2 plots or tables. A link to a detailed report
+or interactive artifact is fine for the deep dive, provided it is accessible to
+the team and retained for as long as the experiment record — but the comment must
+stand on its own.
 
-Every open issue with something new gets an update each week, including
-approximate core-hours since the last update and the machine(s). Take the
-core-hours from the scheduler rather than estimating.
-
-Not working on it? Set `status:paused`. `status:active` is a claim that work is
-happening — if an issue is silent, either update it or change the label.
+Every `status:active` issue receives one update each week, including approximate
+core-hours since the last update and the machine(s); take the core-hours from the
+scheduler rather than estimating. If there is no new result, briefly report what
+is running, what is blocking progress, or that there was no material change. If
+work is not expected during the coming week, set `status:paused`.
 
 ## Closing
 
 Rewrite **Current status** as the final answer — outcome and magnitude of impact
-— then close the issue and set `outcome:adopted` or `outcome:rejected`. There is
-no separate Result field; Current status is already rewritten at every
-conclusion, so at close it becomes the record.
+— then close the issue, remove any `status:*` label, and set one `outcome:*`
+label. There is no separate Result field; Current status is already rewritten at
+every conclusion, so at close it becomes the record.
+
+- `outcome:adopted` — the change works and we are taking it.
+- `outcome:rejected` — the proposal did not work.
+- `outcome:inconclusive` — the experiment could not answer the question:
+  insufficient statistical power, or characterisation work with no proposed
+  change to accept or reject.
+
+Keep those last two apart. "It did not work" and "we could not tell" lead to
+different decisions about whether to try again.
 
 An experiment abandoned rather than concluded is closed as **not planned**, with
 no outcome label.
