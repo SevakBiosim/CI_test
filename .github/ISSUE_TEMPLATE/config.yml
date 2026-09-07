@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Experiment tracking policy
+    url: https://github.com/SevakBiosim/CI_test/blob/master/.github/EXPERIMENT_POLICY.md
+    about: How experiments are tracked, labelled, updated weekly, and closed.

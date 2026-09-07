@@ -1,0 +1,132 @@
+name: Experiment
+description: Track a single experiment (one issue per experiment).
+title: "[System][Method] short description"
+labels: ["type:experiment", "status:active"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **This top post is a living document, not a one-time form.**
+        Keep it accurate: if the plan pivots, edit the fields below rather than
+        letting them go stale. Comments are the audit trail; this post is the TL;DR.
+
+        See the [experiment policy](https://github.com/SevakBiosim/CI_test/blob/master/.github/EXPERIMENT_POLICY.md).
+
+        Fix the title to `[System][Method] short description`, e.g.
+        `[A71EV2A][ABFE] Restraint atom selection`. Add `system:*` / `method:*`
+        labels and assign an owner.
+
+  - type: textarea
+    id: current-status
+    attributes:
+      label: Current status
+      description: >
+        Update this whenever there is a meaningful new conclusion. Nobody should
+        have to read the comment history to know where things stand.
+      value: Not started.
+    validations:
+      required: true
+
+  - type: textarea
+    id: purpose
+    attributes:
+      label: Purpose / hypothesis
+      description: What question does this answer, and what do you expect to see?
+    validations:
+      required: true
+
+  - type: textarea
+    id: success-criteria
+    attributes:
+      label: Success criteria
+      description: >
+        Decide *before running* what result would make us adopt or reject this.
+        Give a number where you can, so the conclusion cannot be
+        reverse-engineered from the data once it is in.
+      placeholder: |
+        e.g. Adopt if RMSE vs. experiment improves by >= 0.3 kcal/mol across the
+        target set with no regression > 0.5 kcal/mol on any single ligand.
+    validations:
+      required: true
+
+  - type: textarea
+    id: target-set
+    attributes:
+      label: Target set(s)
+      description: Systems, ligands, or edges in scope. Link the set definition if one exists.
+    validations:
+      required: true
+
+  - type: textarea
+    id: baseline
+    attributes:
+      label: Baseline
+      description: >
+        What this is measured against, and where those numbers come from
+        (issue, run directory, or published reference).
+    validations:
+      required: true
+
+  - type: textarea
+    id: fixed-config
+    attributes:
+      label: Fixed configuration
+      description: Everything held constant across runs. Delete lines that do not apply.
+      value: |
+        - Force field / water model:
+        - Timestep:
+        - Thermostat / barostat:
+        - Sampling time per window:
+        - Lambda schedule:
+        - Repeats:
+        - Free energy estimator:
+    validations:
+      required: true
+
+  - type: textarea
+    id: provenance
+    attributes:
+      label: MDSuite version(s) and exact invocation
+      description: >
+        Required for reproducibility: defaults change over time, so a prose
+        description of the config is not enough to re-run this a year from now.
+        If you move to a newer MDSuite mid-experiment, **add a line rather than
+        overwriting** — which runs used which build has to stay recoverable.
+      value: |
+        - MDSuite version (tag or commit) -> runs it covers:
+          - `v0.2.6` (`307e89c`):
+        - Command / config file:
+        ```bash
+
+        ```
+    validations:
+      required: true
+
+  - type: textarea
+    id: data-location
+    attributes:
+      label: Data location
+      description: >
+        Link or path to the uploaded inputs and results needed to reproduce or
+        inspect this. Write `TBD` if nothing is uploaded yet, and fill it in with
+        the first update.
+    validations:
+      required: true
+
+  - type: input
+    id: compute
+    attributes:
+      label: Machine(s)
+      description: >
+        Where this runs. Core-hours (and GPU-hours separately) get reported in the
+        weekly update comments.
+      placeholder: Archer2, Cirrus, OVH
+
+  - type: textarea
+    id: result
+    attributes:
+      label: Result
+      description: >
+        Leave empty until closing. On close, record the final outcome and the
+        magnitude of its impact, then close the issue.
+      placeholder: Filled in at close.
