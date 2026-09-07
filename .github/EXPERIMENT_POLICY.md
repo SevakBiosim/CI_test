@@ -7,8 +7,32 @@ convention; the [issue template](ISSUE_TEMPLATE/experiment.yml) enforces the str
 
 `[System][Method] short description` — e.g. `[A71EV2A][ABFE] Restraint atom selection`.
 
-The brackets double as searchable tags even without labels. Use `[MDSuite]` or
-`[Infra]` in the system slot when no simulated system is involved.
+The brackets are a scanning aid, not a search mechanism: they show up in
+notification emails, Slack unfurls, `gh issue list`, browser tabs and
+cross-references from other issues, none of which render labels. Precise
+filtering is what the `system:*` / `method:*` labels are for — GitHub's search
+normalises punctuation, so `in:title ABFE` matches with or without the brackets.
+
+**One word per bracket, always.** `[A71EV2A,MCL1,TYK2][ABFE+REST2]` destroys the
+scannability that is the only reason the brackets exist. The title carries the
+primary axis; completeness lives in the labels and the Target set(s) field,
+which have no width limit.
+
+| Case | Title | Labels |
+|------|-------|--------|
+| One of each | `[A71EV2A][ABFE] Restraint atom selection` | `system:a71ev2a`, `method:abfe` |
+| Many systems | `[JACS-8][RBFE] Charge scheme comparison` | one `system:*` each |
+| Comparing methods | `[A71EV2A][ABFE-vs-RBFE] Convergence at fixed cost` | `method:abfe`, `method:rbfe` |
+| Method on method | `[A71EV2A][ABFE] REST2 on the softcore windows` | `method:abfe`, `method:rest2` |
+| No system | `[MDSuite][FEP] Lambda schedule default is asymmetric` | `type:finding` |
+
+For several systems, name the set rather than enumerating it. For stacked
+methods, the title takes the outer one and the labels take both.
+
+If an issue spans several systems *and* several methods and would produce a
+handful of independent verdicts, split it: one issue per comparable unit. A
+single Current status cannot summarise six outcomes. But if the systems are a
+set that yields one number — RMSE across JACS-8 — that is one experiment.
 
 ## Labels
 
@@ -37,32 +61,36 @@ and nobody has to guess what to write.
 
 ## Top post — the spec
 
-Purpose, success criteria, target set(s), fixed config (force field, timestep,
-repeat count, ...), MDSuite version and exact invocation, baseline, and where the
-experiment data is stored. Keep it accurate: **if the plan pivots, edit the top
-post** rather than letting it go stale.
+Purpose, success criteria, target set(s), baseline, configuration, and where the
+data is stored. Keep it accurate: **if the plan pivots, edit the top post**
+rather than letting it go stale.
 
-Two fields deserve emphasis.
+Three fields deserve emphasis.
 
 **Success criteria** are decided *before* running. State the threshold that would
 make us adopt or reject the change, so the conclusion cannot be
 reverse-engineered from the data once it is in.
 
-**MDSuite version and exact invocation** — tag or commit, plus the command line.
-Defaults change over time, so a prose description of the config is not enough to
-re-run an experiment a year from now. If you move to a newer MDSuite partway
-through, add a line to the field rather than overwriting it, so which runs used
-which build stays recoverable:
+**Baseline** may legitimately be `None` — a first measurement, or an exploratory
+characterisation with nothing prior to compare against. Say so explicitly rather
+than leaving it blank: it tells readers not to expect a delta, and it means the
+success criteria have to be written as "what would count as having characterised
+this well enough to decide" instead of a threshold.
 
-```
-- v0.2.6 (307e89c): windows 1-20, all runs through 2026-09-10
-- v0.2.7 (abc1234): re-runs of windows 8-12 from 2026-09-12
-```
+**Configuration** does not restate the run parameters. Every run writes an
+`output_config.json` recording the MDSuite version, integrator, `dt`, lambda
+schedule, `n_windows`, `repeats`, restraints and estimator; those files are the
+ground truth, and a hand-typed copy in the issue is strictly worse — it goes
+stale and can simply be wrong. The field records only what the JSON cannot say:
+the MDSuite version(s) in play, which parameter is the independent variable, and
+anything done outside the tool (patched inputs, manual edits).
 
-And treat the bump as a change in conditions, not bookkeeping: if the update
-could plausibly move the numbers, runs from either side of it are not the same
-condition and should not be pooled into one mean. Say so in that week's update
-and either re-run the older ones or report the two sets separately.
+This also settles mid-experiment version bumps: each run's config carries its own
+`MDSuite` field, so the run-to-build mapping is automatic. What still needs human
+judgement is whether to *pool* the runs — if the update could plausibly move the
+numbers, runs from either side of it are not the same condition and do not belong
+in one mean. Say so in that week's update and either re-run the older ones or
+report the two sets separately.
 
 ## Top post — living summary
 
@@ -86,8 +114,13 @@ What was tested, delta vs. baseline, conclusion. A few sentences, not a report.
 ## Data location
 
 Always provide a link or path to the uploaded data needed to reproduce or
-inspect the experiment. If new data is generated during an update, say where it
-was uploaded.
+inspect the experiment — including the `output_config.json` files the
+Configuration field defers to.
+
+**Append to this field, never overwrite it.** One dated line per upload. New data
+generated during an update gets a line here as well as a mention in the update
+comment, so the top post stays the one place a reader finds everything rather
+than pointing only at the most recent batch.
 
 ## Weekly cadence
 
@@ -111,8 +144,7 @@ number from the scheduler rather than estimating it — e.g.
 sacct -S 2026-09-01 -u "$USER" -X --format=JobID,JobName,Elapsed,AllocCPUS,AllocTRES
 ```
 
-Report GPU-hours separately from core-hours; they are not interchangeable. This
-lets us track the cost of each experiment over time and decide whether more
+This lets us track the cost of each experiment over time and decide whether more
 compute is justified.
 
 ## Closing
@@ -121,9 +153,20 @@ Edit the top post to fill in the `Result` section — final outcome and magnitud
 of impact — and close the issue. Closing is the whole record; there is no status
 label to set.
 
-## Creating the labels
+## Adding labels
 
-One-time setup, for whoever has `gh` authenticated:
+**Per issue.** The template applies `type:experiment` and `status:active` on its
+own. The rest you set by hand: on the new-issue page, use the **Labels** picker
+in the right sidebar before submitting, or open the issue and use the same picker
+afterwards — start typing `system:` or `method:` to filter. Both need write
+access to the repo.
+
+A label that does not exist yet is **silently dropped**, not created — including
+the two the template tries to apply. If your labels do not stick, they have not
+been created yet.
+
+**Creating them, once.** In the browser: **Issues -> Labels -> New label**.
+Or, with `gh` authenticated:
 
 ```bash
 REPO=SevakBiosim/CI_test
@@ -138,5 +181,11 @@ gh label create method:fep      -R $REPO -c '#FBCA04'
 gh label create method:rest2    -R $REPO -c '#FBCA04'
 gh label create method:md       -R $REPO -c '#FBCA04'
 gh label create method:analysis -R $REPO -c '#FBCA04'
-# then one `system:<name>` label per system, as they come up
+```
+
+Add a `system:<name>` label as each new system comes up — no need to define them
+up front:
+
+```bash
+gh label create system:a71ev2a -R $REPO -c '#BFD4F2'
 ```

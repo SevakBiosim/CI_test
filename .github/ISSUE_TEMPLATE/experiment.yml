@@ -12,18 +12,20 @@ body:
 
         See the [experiment policy](https://github.com/SevakBiosim/CI_test/blob/master/.github/EXPERIMENT_POLICY.md).
 
-        Fix the title to `[System][Method] short description`, e.g.
-        `[A71EV2A][ABFE] Restraint atom selection`. Add `system:*` / `method:*`
-        labels and assign an owner.
+        Fix the title to `[System][Method] short description` — one word per
+        bracket, e.g. `[A71EV2A][ABFE] Restraint atom selection`. Then add
+        `system:*` / `method:*` labels and assign an owner.
 
   - type: textarea
     id: current-status
     attributes:
       label: Current status
       description: >
-        Update this whenever there is a meaningful new conclusion. Nobody should
-        have to read the comment history to know where things stand.
-      value: Not started.
+        One to three sentences: where things stand, and what happens next.
+        Rewrite it whenever there is a meaningful new conclusion — this is the
+        TL;DR that saves people reading the comments. The active / blocked /
+        paused state goes in the `status:*` label, not here.
+      value: "_YYYY-MM-DD — not started._"
     validations:
       required: true
 
@@ -42,7 +44,9 @@ body:
       description: >
         Decide *before running* what result would make us adopt or reject this.
         Give a number where you can, so the conclusion cannot be
-        reverse-engineered from the data once it is in.
+        reverse-engineered from the data once it is in. With no baseline, say
+        instead what would count as having characterised the thing well enough
+        to decide.
       placeholder: |
         e.g. Adopt if RMSE vs. experiment improves by >= 0.3 kcal/mol across the
         target set with no regression > 0.5 kcal/mol on any single ligand.
@@ -53,7 +57,10 @@ body:
     id: target-set
     attributes:
       label: Target set(s)
-      description: Systems, ligands, or edges in scope. Link the set definition if one exists.
+      description: >
+        Every system, ligand, or edge in scope — the title carries only the
+        primary one, this field carries the full list. Link the set definition
+        if one exists.
     validations:
       required: true
 
@@ -62,43 +69,29 @@ body:
     attributes:
       label: Baseline
       description: >
-        What this is measured against, and where those numbers come from
-        (issue, run directory, or published reference).
+        What this is measured against, and where those numbers come from (issue,
+        run directory, or published reference). If there is genuinely nothing to
+        compare against, write `None` and say why — a first measurement or an
+        exploratory characterisation is a valid answer, and it tells readers not
+        to expect a delta.
     validations:
       required: true
 
   - type: textarea
-    id: fixed-config
+    id: configuration
     attributes:
-      label: Fixed configuration
-      description: Everything held constant across runs. Delete lines that do not apply.
-      value: |
-        - Force field / water model:
-        - Timestep:
-        - Thermostat / barostat:
-        - Sampling time per window:
-        - Lambda schedule:
-        - Repeats:
-        - Free energy estimator:
-    validations:
-      required: true
-
-  - type: textarea
-    id: provenance
-    attributes:
-      label: MDSuite version(s) and exact invocation
+      label: Configuration
       description: >
-        Required for reproducibility: defaults change over time, so a prose
-        description of the config is not enough to re-run this a year from now.
-        If you move to a newer MDSuite mid-experiment, **add a line rather than
-        overwriting** — which runs used which build has to stay recoverable.
+        Do **not** retype the run parameters: each run writes an
+        `output_config.json` recording MDSuite version, integrator, `dt`,
+        lambda schedule, `n_windows`, `repeats`, restraints, estimator and the
+        rest. Those files, in the uploaded data, are the ground truth. Use this
+        field only for what they do not tell a reader.
       value: |
-        - MDSuite version (tag or commit) -> runs it covers:
-          - `v0.2.6` (`307e89c`):
-        - Command / config file:
-        ```bash
-
-        ```
+        - MDSuite version(s) used:
+        - What varies across runs (the independent variable):
+        - Anything not captured in `output_config.json` (manual edits, patched
+          inputs, non-default hardware):
     validations:
       required: true
 
@@ -107,9 +100,12 @@ body:
     attributes:
       label: Data location
       description: >
-        Link or path to the uploaded inputs and results needed to reproduce or
-        inspect this. Write `TBD` if nothing is uploaded yet, and fill it in with
-        the first update.
+        Links or paths to the uploaded runs and analysis. **Append a line, never
+        overwrite** — one line per upload, so this stays the one place a reader
+        finds everything, including the `output_config.json` files behind the
+        Configuration field. Write `TBD` if nothing is uploaded yet.
+      value: |
+        - `YYYY-MM-DD` — what it is — where:
     validations:
       required: true
 
@@ -118,8 +114,7 @@ body:
     attributes:
       label: Machine(s)
       description: >
-        Where this runs. Core-hours (and GPU-hours separately) get reported in the
-        weekly update comments.
+        Where this runs. Core-hours get reported in the weekly update comments.
       placeholder: Archer2, Cirrus, OVH
 
   - type: textarea
