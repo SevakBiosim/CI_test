@@ -3,6 +3,9 @@
 One GitHub issue per experiment. The
 [issue template](ISSUE_TEMPLATE/experiment.yml) carries the required fields.
 
+Assign one directly responsible owner. Other contributors may also be assigned,
+but the primary owner is responsible for the weekly update.
+
 ## Title
 
 `[System][Method] short description`. One value per bracket, no lists, two
@@ -34,9 +37,6 @@ per comparable unit — a single Current status cannot summarise six verdicts.
 Lowercase and hyphenated, always. `type:finding` is a standalone bug or
 observation rather than a running experiment; only experiments have a template.
 There is no `status:done` — a closed issue is done.
-
-Assign one directly responsible owner. Other contributors may also be assigned,
-but the primary owner is responsible for the weekly update.
 
 ## Top post
 
