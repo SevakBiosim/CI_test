@@ -3,7 +3,7 @@
 One GitHub issue per experiment. The
 [issue template](ISSUE_TEMPLATE/experiment.yml) carries the required fields.
 
-Assign one directly responsible owner. Other contributors may also be assigned,
+**Assign one directly responsible owner.** Other contributors may also be assigned,
 but the primary owner is responsible for the weekly update.
 
 ## Title
