@@ -165,6 +165,13 @@ A label that does not exist yet is **silently dropped**, not created — includi
 the two the template tries to apply. If your labels do not stick, they have not
 been created yet.
 
+Labels are **repository-wide, not personal**: creating one adds it to everyone's
+picker, and deleting one strips it from every issue that used it, irreversibly.
+It is also an unvalidated namespace — `system:A71EV2A` and `system:a71ev2a` are
+two different labels that filter differently, and nothing warns you. So:
+**lowercase, hyphenated, always** (`system:a71ev2a`, `method:abfe`). Check the
+existing list before inventing a name.
+
 **Creating them, once.** In the browser: **Issues -> Labels -> New label**.
 Or, with `gh` authenticated:
 
