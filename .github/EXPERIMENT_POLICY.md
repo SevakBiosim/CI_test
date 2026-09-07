@@ -40,8 +40,8 @@ There is no `status:done` — a closed issue is done.
 
 ## Top post
 
-The spec: purpose, success criteria, target set(s), baseline, configuration, and
-data location. **If the plan pivots, edit the top post** rather than letting it
+The spec: purpose, success criteria, target set(s), baseline, version and
+deviations, and data location. **If the plan pivots, edit the top post** rather than letting it
 go stale.
 
 - **Success criteria** are decided *before* running, as a number where possible,
@@ -51,11 +51,10 @@ go stale.
 - **Baseline** may be `None` — a first measurement with nothing to compare
   against. Say so explicitly; then the success criteria state what would count
   as having characterised the thing well enough to decide.
-- **Configuration** does not restate run parameters: each run's
-  `output_config.json` is the ground truth, MDSuite version included. Record only
-  what was varied between runs, anything done outside the tool, and the version(s)
-  in play — a signpost, so nobody downloads data to ask which builds an experiment
-  used.
+- **Version and deviations** does not restate run parameters: each run's
+  `output_config.json` is the ground truth. Record the MDSuite version(s) in play
+  — a signpost, so nobody opens the data to ask which builds an experiment used —
+  and anything done outside the tool, which no config file can show.
 - **Data location** is appended to, never overwritten — one dated line per
   upload, so the top post stays the one place to find everything.
 - **Current status** is the top post's TL;DR, rewritten at every meaningful

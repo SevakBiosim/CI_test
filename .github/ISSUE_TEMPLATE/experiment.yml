@@ -74,15 +74,15 @@ body:
       required: true
 
   - type: textarea
-    id: configuration
+    id: version-deviations
     attributes:
-      label: Configuration
+      label: Version and deviations
       description: >
-        Do not retype the run parameters — each run's `output_config.json`
-        already records them and is the ground truth.
+        Run parameters are not retyped here — each run's `output_config.json`
+        records them. This is for the two things a reader should not have to open
+        the data to learn.
       value: |
         - MDSuite version(s) (roughly — the configs are authoritative):
-        - What was varied between runs:
         - Done outside the tool (patched branch, hand-edited inputs, ...): none
     validations:
       required: true
