@@ -70,7 +70,9 @@ each week, including approximate core-hours since the last update and the
 machine(s); take the core-hours from the scheduler rather than estimating. If
 there is no new result, briefly report what is running, what is blocking
 progress, or that there was no material change. If work is not expected during
-the coming week, set `status:paused`.
+the coming week, set `status:paused`. Use `status:blocked` when progress is
+waiting on something external; a blocked issue still gets its weekly update,
+naming what is being waited on.
 
 Run parameters live in each run's `output_config.json` and are not restated.
 What that file cannot show goes in the update covering those runs: the MDSuite
