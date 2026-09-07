@@ -78,9 +78,6 @@ version, and anything done outside the tool — a patched branch, hand-edited
 inputs. If it changes how the results should be read, put it in **Current
 status** as well.
 
-Runs from either side of a version bump that could move the numbers are not the
-same condition and do not belong in one mean.
-
 ## Closing
 
 Rewrite **Current status** as the final answer — outcome and magnitude of impact
