@@ -7,17 +7,22 @@ convention; the [issue template](ISSUE_TEMPLATE/experiment.yml) enforces the str
 
 `[System][Method] short description` — e.g. `[TYK2][ABFE] Restraint atom selection`.
 
-The brackets are a scanning aid, not a search mechanism: they show up in
+The brackets exist so a list of issues can be skimmed rather than read: they
+put the system and method in the same place on every line, so your eye runs down
+the left edge instead of reading each title to the end. They also show up in
 notification emails, Slack unfurls, `gh issue list`, browser tabs and
-cross-references from other issues, none of which render labels. Precise
-filtering is what the `system:*` / `method:*` labels are for — GitHub's search
-normalises punctuation, so `in:title ABFE` matches with or without the brackets.
+cross-references from other issues, none of which render labels.
+
+They are not a search mechanism. Precise filtering is what the `system:*` /
+`method:*` labels are for — GitHub's search normalises punctuation, so
+`in:title ABFE` matches with or without the brackets.
 
 **One value per bracket, no lists.** A hyphenated compound is one value
-(`[ABFE-vs-RBFE]`); `[ABFE+REST2]` and `[TYK2,MCL1]` are not — a list destroys
-the scannability that is the only reason the brackets exist. The title carries
-the primary axis; completeness lives in the labels and the Target set(s) field,
-which have no width limit.
+(`[ABFE-vs-RBFE]`); `[ABFE+REST2]` and `[TYK2,MCL1]` are not. A list makes the
+left column a different width on every line, which leaves nothing for the eye to
+lock onto — so you are back to reading every title, having paid the title space
+for nothing. The title carries the primary axis; completeness lives in the labels
+and the Target set(s) field, which have no width limit.
 
 Two brackets, not three. Nothing enforces any of this — GitHub does not parse
 titles — so it is a convention that holds only as long as we maintain it. A
