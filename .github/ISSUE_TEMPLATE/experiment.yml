@@ -73,19 +73,6 @@ body:
     validations:
       required: true
 
-  - type: textarea
-    id: version-deviations
-    attributes:
-      label: Version and deviations
-      description: >
-        Run parameters are not retyped here — each run's `output_config.json`
-        records them. This is for the two things a reader should not have to open
-        the data to learn.
-      value: |
-        - MDSuite version(s) (roughly — the configs are authoritative):
-        - Done outside the tool (patched branch, hand-edited inputs, ...): none
-    validations:
-      required: true
 
   - type: textarea
     id: data-location

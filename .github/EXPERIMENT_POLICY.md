@@ -3,8 +3,8 @@
 One GitHub issue per experiment. The
 [issue template](ISSUE_TEMPLATE/experiment.yml) carries the required fields.
 
-**Assign one directly responsible owner.** Other contributors may also be assigned,
-but the primary owner is responsible for the weekly update.
+**Assign one directly responsible owner.** Other contributors may also be
+assigned, but the primary owner is responsible for the weekly update.
 
 ## Title
 
@@ -40,9 +40,8 @@ There is no `status:done` — a closed issue is done.
 
 ## Top post
 
-The spec: purpose, success criteria, target set(s), baseline, version and
-deviations, and data location. **If the plan pivots, edit the top post** rather than letting it
-go stale.
+The spec: purpose, success criteria, target set(s), baseline, and data location.
+**If the plan pivots, edit the top post** rather than letting it go stale.
 
 - **Success criteria** are decided *before* running, as a number where possible,
   so the conclusion cannot be reverse-engineered from the data. Exploratory
@@ -51,33 +50,36 @@ go stale.
 - **Baseline** may be `None` — a first measurement with nothing to compare
   against. Say so explicitly; then the success criteria state what would count
   as having characterised the thing well enough to decide.
-- **Version and deviations** does not restate run parameters: each run's
-  `output_config.json` is the ground truth. Record the MDSuite version(s) in play
-  — a signpost, so nobody opens the data to ask which builds an experiment used —
-  and anything done outside the tool, which no config file can show.
 - **Data location** is appended to, never overwritten — one dated line per
   upload, so the top post stays the one place to find everything.
 - **Current status** is the top post's TL;DR, rewritten at every meaningful
   conclusion and dated. Nobody should have to read the comment history to know
   where things stand.
 
-Each run's config records the MDSuite version it ran under. Runs from either side
-of a version bump that could move the numbers are not the same condition and do
-not belong in one mean.
-
 ## Updates
 
 One comment per update: what was tested, delta vs. baseline, conclusion. A few
 sentences, not a report. At most ~2 plots or tables. A link to a detailed report
 or interactive artifact is fine for the deep dive, provided it is accessible to
-the team and retained for as long as the experiment record — but the comment must
+the team and retained as long as the experiment record — but the comment must
 stand on its own.
 
-Every `status:active` issue receives one update each week, including approximate
-core-hours since the last update and the machine(s); take the core-hours from the
-scheduler rather than estimating. If there is no new result, briefly report what
-is running, what is blocking progress, or that there was no material change. If
-work is not expected during the coming week, set `status:paused`.
+Post an update when there is something to report rather than saving it for the
+end of the week. Every `status:active` issue receives **at least** one update
+each week, including approximate core-hours since the last update and the
+machine(s); take the core-hours from the scheduler rather than estimating. If
+there is no new result, briefly report what is running, what is blocking
+progress, or that there was no material change. If work is not expected during
+the coming week, set `status:paused`.
+
+Run parameters live in each run's `output_config.json` and are not restated.
+What that file cannot show goes in the update covering those runs: the MDSuite
+version, and anything done outside the tool — a patched branch, hand-edited
+inputs. If it changes how the results should be read, put it in **Current
+status** as well.
+
+Runs from either side of a version bump that could move the numbers are not the
+same condition and do not belong in one mean.
 
 ## Closing
 
