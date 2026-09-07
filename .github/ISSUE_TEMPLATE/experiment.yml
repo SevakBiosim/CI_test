@@ -12,8 +12,8 @@ body:
 
         See the [experiment policy](https://github.com/SevakBiosim/CI_test/blob/master/.github/EXPERIMENT_POLICY.md).
 
-        Fix the title to `[System][Method] short description` — one word per
-        bracket, e.g. `[A71EV2A][ABFE] Restraint atom selection`. Then add
+        Fix the title to `[System][Method] short description` — one value per
+        bracket, no lists, e.g. `[TYK2][ABFE] Restraint atom selection`. Then add
         `system:*` / `method:*` labels and assign an owner.
 
   - type: textarea
@@ -23,7 +23,8 @@ body:
       description: >
         One to three sentences: where things stand, and what happens next.
         Rewrite it whenever there is a meaningful new conclusion — this is the
-        TL;DR that saves people reading the comments. The active / blocked /
+        TL;DR that saves people reading the comments, and on closing it becomes
+        the record of what the experiment concluded. The active / blocked /
         paused state goes in the `status:*` label, not here.
       value: "_YYYY-MM-DD — not started._"
     validations:
@@ -82,16 +83,13 @@ body:
     attributes:
       label: Configuration
       description: >
-        Do **not** retype the run parameters: each run writes an
-        `output_config.json` recording MDSuite version, integrator, `dt`,
-        lambda schedule, `n_windows`, `repeats`, restraints, estimator and the
-        rest. Those files, in the uploaded data, are the ground truth. Use this
-        field only for what they do not tell a reader.
+        Do **not** retype the run parameters — each run's `output_config.json`
+        already records them, and is the ground truth. This field is only for the
+        three things that file cannot tell a reader.
       value: |
-        - MDSuite version(s) used:
-        - What varies across runs (the independent variable):
-        - Anything not captured in `output_config.json` (manual edits, patched
-          inputs, non-default hardware):
+        - MDSuite version(s):
+        - What was varied between runs:
+        - Done outside the tool (patched branch, hand-edited inputs, ...): none
     validations:
       required: true
 
@@ -116,12 +114,3 @@ body:
       description: >
         Where this runs. Core-hours get reported in the weekly update comments.
       placeholder: Archer2, Cirrus, OVH
-
-  - type: textarea
-    id: result
-    attributes:
-      label: Result
-      description: >
-        Leave empty until closing. On close, record the final outcome and the
-        magnitude of its impact, then close the issue.
-      placeholder: Filled in at close.

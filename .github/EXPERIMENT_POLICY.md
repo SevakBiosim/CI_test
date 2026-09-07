@@ -5,7 +5,7 @@ convention; the [issue template](ISSUE_TEMPLATE/experiment.yml) enforces the str
 
 ## Title
 
-`[System][Method] short description` — e.g. `[A71EV2A][ABFE] Restraint atom selection`.
+`[System][Method] short description` — e.g. `[TYK2][ABFE] Restraint atom selection`.
 
 The brackets are a scanning aid, not a search mechanism: they show up in
 notification emails, Slack unfurls, `gh issue list`, browser tabs and
@@ -13,21 +13,33 @@ cross-references from other issues, none of which render labels. Precise
 filtering is what the `system:*` / `method:*` labels are for — GitHub's search
 normalises punctuation, so `in:title ABFE` matches with or without the brackets.
 
-**One word per bracket, always.** `[A71EV2A,MCL1,TYK2][ABFE+REST2]` destroys the
-scannability that is the only reason the brackets exist. The title carries the
-primary axis; completeness lives in the labels and the Target set(s) field,
+**One value per bracket, no lists.** A hyphenated compound is one value
+(`[ABFE-vs-RBFE]`); `[ABFE+REST2]` and `[TYK2,MCL1]` are not — a list destroys
+the scannability that is the only reason the brackets exist. The title carries
+the primary axis; completeness lives in the labels and the Target set(s) field,
 which have no width limit.
+
+Two brackets, not three. Nothing enforces any of this — GitHub does not parse
+titles — so it is a convention that holds only as long as we maintain it. A
+third bracket starts crowding out the description, which is the part that
+actually says what the issue is.
 
 | Case | Title | Labels |
 |------|-------|--------|
-| One of each | `[A71EV2A][ABFE] Restraint atom selection` | `system:a71ev2a`, `method:abfe` |
+| One of each | `[TYK2][ABFE] Restraint atom selection` | `system:tyk2`, `method:abfe` |
 | Many systems | `[JACS-8][RBFE] Charge scheme comparison` | one `system:*` each |
-| Comparing methods | `[A71EV2A][ABFE-vs-RBFE] Convergence at fixed cost` | `method:abfe`, `method:rbfe` |
-| Method on method | `[A71EV2A][ABFE] REST2 on the softcore windows` | `method:abfe`, `method:rest2` |
+| Comparing methods | `[TYK2][ABFE-vs-RBFE] Convergence at fixed cost` | `method:abfe`, `method:rbfe` |
+| Method on method | `[TYK2][ABFE] REST2 on the softcore windows` | `method:abfe`, `method:rest2` |
 | No system | `[MDSuite][FEP] Lambda schedule default is asymmetric` | `type:finding` |
 
-For several systems, name the set rather than enumerating it. For stacked
-methods, the title takes the outer one and the labels take both.
+For several systems, name the set rather than enumerating it.
+
+**Stacked methods** — where one technique is applied inside another, such as
+REST2 on the windows of an ABFE calculation, or HREX within FEP — take the outer
+method in the bracket, because that is what is being computed, and both in the
+labels. `[TYK2][ABFE] REST2 on the softcore windows` already names REST2 in the
+description, so the bracket does not need to; and the `method:rest2` label is
+what makes "everything involving REST2" a findable query.
 
 If an issue spans several systems *and* several methods and would produce a
 handful of independent verdicts, split it: one issue per comparable unit. A
@@ -38,7 +50,7 @@ set that yields one number — RMSE across JACS-8 — that is one experiment.
 
 | Label | Values |
 |-------|--------|
-| `system:*` | one per system under study |
+| `system:*` | one per system under study — apply as many as apply |
 | `method:*` | `abfe`, `rbfe`, `fep`, `rest2`, `md`, `analysis` |
 | `status:*` | `active`, `blocked`, `paused` |
 | `type:*` | `experiment`, `finding` |
@@ -51,6 +63,19 @@ There is no `status:done`: a closed issue *is* done, and a second place to recor
 it only gives us two things to keep in sync. The three status values distinguish
 states an open issue cannot otherwise express — `blocked` is waiting on something
 external, `paused` is deliberately deprioritised.
+
+**`status:*` describes open issues only.** A closed issue keeps whatever status
+it had, so "closed + `status:active`" is normal and means nothing — do not read
+it, and do not bother clearing it at close. Always scope status queries with
+`is:open`:
+
+```
+is:open label:status:blocked
+```
+
+A rule to remember degrades better than an action to remember: forget the rule
+and you get a confusing query once, forget the action and the repo fills with
+labels that are quietly wrong.
 
 **Assign an owner.** The assignee is who provides the weekly update.
 
@@ -78,12 +103,18 @@ success criteria have to be written as "what would count as having characterised
 this well enough to decide" instead of a threshold.
 
 **Configuration** does not restate the run parameters. Every run writes an
-`output_config.json` recording the MDSuite version, integrator, `dt`, lambda
-schedule, `n_windows`, `repeats`, restraints and estimator; those files are the
-ground truth, and a hand-typed copy in the issue is strictly worse — it goes
-stale and can simply be wrong. The field records only what the JSON cannot say:
-the MDSuite version(s) in play, which parameter is the independent variable, and
-anything done outside the tool (patched inputs, manual edits).
+`output_config.json`, and that file is the ground truth — a hand-typed copy in
+the issue is strictly worse, because it goes stale and can simply be wrong. Put
+only what the JSON cannot say:
+
+- **What was varied between runs** — the point of the experiment, and the one
+  thing no single config file reveals. "Restraint atoms: CA-only vs. all heavy
+  atoms, everything else fixed."
+- **MDSuite version(s)** — so a reader can tell at a glance whether a
+  version-specific bug applies, without downloading the data.
+- **Anything done outside the tool** — a patched branch, hand-edited inputs, a
+  system built by hand. This is the only category that is invisible everywhere
+  else, so it matters most.
 
 This also settles mid-experiment version bumps: each run's config carries its own
 `MDSuite` field, so the run-to-build mapping is automatic. What still needs human
@@ -103,10 +134,6 @@ audit trail, the top post is the TL;DR.
 
 What was tested, delta vs. baseline, conclusion. A few sentences, not a report.
 
-- Quote every free energy value with its uncertainty and the number of repeats —
-  `-9.4 +/- 0.3 kcal/mol (n=3)`. Where the `+/-` is not the std across repeats
-  (an MBAR analytical error, say), name it: the two are different claims and are
-  easy to confuse.
 - Max ~2 plots or tables per update; pick the ones that carry the point.
 - A Claude Artifact link is fine for the deep dive, but **the comment must be
   self-contained** — never assume anyone clicks through.
@@ -149,9 +176,14 @@ compute is justified.
 
 ## Closing
 
-Edit the top post to fill in the `Result` section — final outcome and magnitude
-of impact — and close the issue. Closing is the whole record; there is no status
-label to set.
+Rewrite **Current status** as the final answer — the outcome and the magnitude
+of its impact — and close the issue.
+
+There is no separate `Result` field. Current status is already the top post's
+TL;DR and is rewritten at every conclusion, so at close it simply becomes the
+last one; a second field would say the same thing, and would sit empty in the top
+post for the whole life of every open issue. Closing is the rest of the record:
+no status label to set.
 
 ## Adding labels
 
@@ -167,9 +199,9 @@ been created yet.
 
 Labels are **repository-wide, not personal**: creating one adds it to everyone's
 picker, and deleting one strips it from every issue that used it, irreversibly.
-It is also an unvalidated namespace — `system:A71EV2A` and `system:a71ev2a` are
+It is also an unvalidated namespace — `system:TYK2` and `system:tyk2` are
 two different labels that filter differently, and nothing warns you. So:
-**lowercase, hyphenated, always** (`system:a71ev2a`, `method:abfe`). Check the
+**lowercase, hyphenated, always** (`system:tyk2`, `method:abfe`). Check the
 existing list before inventing a name.
 
 **Creating them, once.** In the browser: **Issues -> Labels -> New label**.
@@ -194,5 +226,5 @@ Add a `system:<name>` label as each new system comes up — no need to define th
 up front:
 
 ```bash
-gh label create system:a71ev2a -R $REPO -c '#BFD4F2'
+gh label create system:tyk2 -R $REPO -c '#BFD4F2'
 ```
