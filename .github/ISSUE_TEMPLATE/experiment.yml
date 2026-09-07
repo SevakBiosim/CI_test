@@ -80,7 +80,7 @@ body:
         Do not retype the run parameters — each run's `output_config.json`
         already records them and is the ground truth.
       value: |
-        - MDSuite version(s):
+        - MDSuite version(s) (roughly — the configs are authoritative):
         - What was varied between runs:
         - Done outside the tool (patched branch, hand-edited inputs, ...): none
     validations:

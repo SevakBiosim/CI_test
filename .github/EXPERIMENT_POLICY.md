@@ -49,8 +49,10 @@ go stale.
   against. Say so explicitly; then the success criteria state what would count
   as having characterised the thing well enough to decide.
 - **Configuration** does not restate run parameters: each run's
-  `output_config.json` is the ground truth. Record only what was varied between
-  runs, the MDSuite version(s), and anything done outside the tool.
+  `output_config.json` is the ground truth, MDSuite version included. Record only
+  what was varied between runs, anything done outside the tool, and the version(s)
+  in play — a signpost, so nobody downloads data to ask which builds an experiment
+  used.
 - **Data location** is appended to, never overwritten — one dated line per
   upload, so the top post stays the one place to find everything.
 - **Current status** is the top post's TL;DR, rewritten at every meaningful
