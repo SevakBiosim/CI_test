@@ -73,15 +73,14 @@ body:
     validations:
       required: true
 
-
   - type: textarea
     id: data-location
     attributes:
       label: Data location
       description: >
-        Links or paths to the uploaded runs and analysis, including the
-        `output_config.json` files the Configuration field defers to. **Append a
-        line, never overwrite.** Write `TBD` if nothing is uploaded yet.
+        Links or paths to the uploaded runs and analysis, including each run's
+        `output_config.json`. **Append a line, never overwrite.** Write `TBD` if
+        nothing is uploaded yet.
       value: |
         - `DD-MM-YYYY` — what it is — where:
     validations:
