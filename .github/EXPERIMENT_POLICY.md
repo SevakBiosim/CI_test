@@ -73,13 +73,8 @@ Every open issue with something new gets an update each week, including
 approximate core-hours since the last update and the machine(s). Take the
 core-hours from the scheduler rather than estimating.
 
-Not being worked on? Set `status:paused`, which drops it out of the weekly
-sweep. The sweep also checks for issues still marked `status:active` that have
-gone quiet:
-
-```
-is:open label:status:active updated:<YYYY-MM-DD
-```
+Not working on it? Set `status:paused`. `status:active` is a claim that work is
+happening — if an issue is silent, either update it or change the label.
 
 ## Closing
 
