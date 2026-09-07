@@ -8,7 +8,7 @@ One GitHub issue per experiment. The
 `[System][Method] short description`. One value per bracket, no lists, two
 brackets at most — the point is that a list of issues can be skimmed down its
 left edge. Everything that does not fit goes in the labels and the Target set(s)
-field. Use `[MDSuite]` or `[Infra]` when no simulated system is involved.
+field. Use `[MDSuite]` when no simulated system is involved.
 
 | Case | Title | Labels |
 |------|-------|--------|
