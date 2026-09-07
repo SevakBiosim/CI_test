@@ -25,7 +25,7 @@ body:
         Rewrite it at every meaningful conclusion; at close it becomes the record
         of what the experiment concluded. The active / blocked / paused state
         goes in the `status:*` label, not here.
-      value: "_YYYY-MM-DD — not started._"
+      value: "_DD-MM-YYYY — not started._"
     validations:
       required: true
 
@@ -83,7 +83,7 @@ body:
         `output_config.json` files the Configuration field defers to. **Append a
         line, never overwrite.** Write `TBD` if nothing is uploaded yet.
       value: |
-        - `YYYY-MM-DD` — what it is — where:
+        - `DD-MM-YYYY` — what it is — where:
     validations:
       required: true
 
