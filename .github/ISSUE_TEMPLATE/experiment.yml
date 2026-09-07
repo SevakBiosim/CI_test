@@ -22,10 +22,9 @@ body:
       label: Current status
       description: >
         One to three sentences: where things stand, and what happens next.
-        Rewrite it whenever there is a meaningful new conclusion — this is the
-        TL;DR that saves people reading the comments, and on closing it becomes
-        the record of what the experiment concluded. The active / blocked /
-        paused state goes in the `status:*` label, not here.
+        Rewrite it at every meaningful conclusion; at close it becomes the record
+        of what the experiment concluded. The active / blocked / paused state
+        goes in the `status:*` label, not here.
       value: "_YYYY-MM-DD — not started._"
     validations:
       required: true
@@ -43,11 +42,9 @@ body:
     attributes:
       label: Success criteria
       description: >
-        Decide *before running* what result would make us adopt or reject this.
-        Give a number where you can, so the conclusion cannot be
-        reverse-engineered from the data once it is in. With no baseline, say
-        instead what would count as having characterised the thing well enough
-        to decide.
+        Decided *before running*: what result would make us adopt or reject
+        this. Give a number where you can. With no baseline, say instead what
+        would count as having characterised the thing well enough to decide.
       placeholder: |
         e.g. Adopt if RMSE vs. experiment improves by >= 0.3 kcal/mol across the
         target set with no regression > 0.5 kcal/mol on any single ligand.
@@ -60,8 +57,7 @@ body:
       label: Target set(s)
       description: >
         Every system, ligand, or edge in scope — the title carries only the
-        primary one, this field carries the full list. Link the set definition
-        if one exists.
+        primary one. Link the set definition if one exists.
     validations:
       required: true
 
@@ -71,10 +67,8 @@ body:
       label: Baseline
       description: >
         What this is measured against, and where those numbers come from (issue,
-        run directory, or published reference). If there is genuinely nothing to
-        compare against, write `None` and say why — a first measurement or an
-        exploratory characterisation is a valid answer, and it tells readers not
-        to expect a delta.
+        run directory, or published reference). Write `None` and say why if there
+        is genuinely nothing to compare against.
     validations:
       required: true
 
@@ -83,9 +77,8 @@ body:
     attributes:
       label: Configuration
       description: >
-        Do **not** retype the run parameters — each run's `output_config.json`
-        already records them, and is the ground truth. This field is only for the
-        three things that file cannot tell a reader.
+        Do not retype the run parameters — each run's `output_config.json`
+        already records them and is the ground truth.
       value: |
         - MDSuite version(s):
         - What was varied between runs:
@@ -98,10 +91,9 @@ body:
     attributes:
       label: Data location
       description: >
-        Links or paths to the uploaded runs and analysis. **Append a line, never
-        overwrite** — one line per upload, so this stays the one place a reader
-        finds everything, including the `output_config.json` files behind the
-        Configuration field. Write `TBD` if nothing is uploaded yet.
+        Links or paths to the uploaded runs and analysis, including the
+        `output_config.json` files the Configuration field defers to. **Append a
+        line, never overwrite.** Write `TBD` if nothing is uploaded yet.
       value: |
         - `YYYY-MM-DD` — what it is — where:
     validations:
