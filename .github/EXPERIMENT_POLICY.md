@@ -29,7 +29,7 @@ per comparable unit — a single Current status cannot summarise six verdicts.
 | Label | Values |
 |-------|--------|
 | `system:*` | one per system under study — apply as many as apply |
-| `method:*` | `abfe`, `rbfe`, `fep`, `rest2`, `md`, `analysis` |
+| `method:*` | `abfe`, `rbfe`, `fep`, `rest2`, `metadynamics`, `opes`, `gcmc`, `md`, `analysis` |
 | `status:*` | `active`, `blocked`, `paused` |
 | `type:*` | `experiment`, `finding` |
 | `outcome:*` | `adopted`, `rejected`, `inconclusive` — set once, at close |
